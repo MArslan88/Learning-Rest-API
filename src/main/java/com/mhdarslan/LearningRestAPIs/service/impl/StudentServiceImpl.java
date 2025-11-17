@@ -1,5 +1,6 @@
 package com.mhdarslan.LearningRestAPIs.service.impl;
 
+import com.mhdarslan.LearningRestAPIs.dto.AddStudentRequestDto;
 import com.mhdarslan.LearningRestAPIs.dto.StudentDto;
 import com.mhdarslan.LearningRestAPIs.entity.Student;
 import com.mhdarslan.LearningRestAPIs.repository.StudentRepository;
@@ -41,5 +42,12 @@ public class StudentServiceImpl implements StudentService {
         Student student = studentRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Student not found with id :"+id));
         StudentDto studentDto = modelMapper.map(student, StudentDto.class);
         return studentDto;
+    }
+
+    @Override
+    public StudentDto createNewStudent(AddStudentRequestDto addStudentRequestDto) {
+        Student newStudent = modelMapper.map(addStudentRequestDto, Student.class);
+        Student student = studentRepository.save(newStudent);
+        return modelMapper.map(student, StudentDto.class);
     }
 }
